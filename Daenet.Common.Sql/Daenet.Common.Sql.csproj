@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>daenet</Authors>
+    <Company>daenet Gesellschaft für Informationstechnologie mbH</Company>
+    <Description>SqlCommand and Reader Helpers</Description>
+    <PackageLicenseUrl>https://github.com/daenetCorporation/Daenet.Common.Sql/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/daenetCorporation/Daenet.Common.Sql</PackageProjectUrl>
+    <PackageIconUrl>https://avatars3.githubusercontent.com/u/12556447?v=4&amp;s=200</PackageIconUrl>
+    <RepositoryUrl>https://github.com/daenetCorporation/Daenet.Common.Sql.git</RepositoryUrl>
+    <PackageTags>sql</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.4.2" />
+  </ItemGroup>
+
+</Project>
