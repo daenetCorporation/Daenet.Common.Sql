@@ -12,6 +12,7 @@ namespace Daenet.Common.Sql
     public static class DataReaderHelper
     {
         #region Public Methods
+
         /// <summary>
         /// Gets a value of an data reader.
         /// </summary>
@@ -21,40 +22,12 @@ namespace Daenet.Common.Sql
         /// <returns></returns>
         public static TResult GetValue<TResult>(this IDataReader reader, string column)
         {
-            if (reader.IsDBNull(column) == true)
-            {
-                return default(TResult);
-            }
-            else
-            {
                 int pos = reader.GetOrdinal(column);
 
-                if (typeof(TResult).GetTypeInfo().IsGenericType &&
-                    typeof(TResult).GetGenericTypeDefinition() == typeof(Nullable<>))
-                {
-                    var types = typeof(TResult).GetTypeInfo().IsGenericTypeDefinition ? typeof(TResult).GetTypeInfo().GenericTypeParameters: typeof(TResult).GetTypeInfo().GenericTypeArguments;
-
-                    Type innerType = types.FirstOrDefault();
-                    object obj = null;
-
-                    if (innerType.GetTypeInfo().IsEnum)
-                    {
-                        obj = Enum.Parse(innerType, reader.GetValue(pos).ToString());
-                    }
-                    else
-                    {
-                        obj = Convert.ChangeType(reader.GetValue(pos), innerType, CultureInfo.InvariantCulture);
-                    }
-                    NullableConverter e = new NullableConverter(typeof(TResult));
-                    return (TResult)e.ConvertFrom(obj);
-                }
-                else if (typeof(TResult).GetTypeInfo().IsEnum)
-                {
-                    return (TResult)Enum.Parse(typeof(TResult), reader.GetValue(pos).ToString());
-                }
-                //else
-                return (TResult)Convert.ChangeType(reader.GetValue(pos), typeof(TResult), CultureInfo.InvariantCulture);
-            }
+            if (pos != -1)
+                return reader.GetValue<TResult>(pos);
+            else
+                return default(TResult);
         }
 
         /// <summary>
@@ -73,14 +46,27 @@ namespace Daenet.Common.Sql
                 if (typeof(TResult).GetTypeInfo().IsGenericType &&
                     typeof(TResult).GetGenericTypeDefinition() == typeof(Nullable<>))
                 {
-                    throw new NotSupportedException("The method GetValue<TResult>() of IDataReader/DataReaderHelper doesn't support nullable types.");
-                    ////Type innerType = typeof(TResult).GetGenericArguments()[0];
-                    //Type innerType = (typeof(TResult).GetTypeInfo().IsGenericTypeDefinition ? typeof(TResult).GetTypeInfo().GenericTypeParameters : typeof(TResult).GetTypeInfo().GenericTypeArguments)[0];
-                    //object obj = Convert.ChangeType(reader.GetValue(columnNo), innerType, CultureInfo.InvariantCulture);
-                    //NullableConverter e = new NullableConverter(typeof(TResult));
-                    //return (TResult)e.ConvertFrom(obj);
+                    var types = typeof(TResult).GetTypeInfo().IsGenericTypeDefinition ? typeof(TResult).GetTypeInfo().GenericTypeParameters : typeof(TResult).GetTypeInfo().GenericTypeArguments;
+
+                    Type innerType = types.FirstOrDefault();
+                    object obj = null;
+
+                    if (innerType.GetTypeInfo().IsEnum)
+                    {
+                        obj = Enum.Parse(innerType, reader.GetValue(columnNo).ToString());
+                    }
+                    else
+                    {
+                        obj = Convert.ChangeType(reader.GetValue(columnNo), innerType, CultureInfo.InvariantCulture);
+                    }
+                    NullableConverter e = new NullableConverter(typeof(TResult));
+                    return (TResult)e.ConvertFrom(obj);
                 }
-                //else
+                else if (typeof(TResult).GetTypeInfo().IsEnum)
+                {
+                    return (TResult)Enum.Parse(typeof(TResult), reader.GetValue(columnNo).ToString());
+                }
+
                 return (TResult)Convert.ChangeType(reader.GetValue(columnNo), typeof(TResult), CultureInfo.InvariantCulture);
             }
         }
@@ -103,7 +89,6 @@ namespace Daenet.Common.Sql
                 return new DateTime(((DateTime)reader.GetDateTime(pos)).Ticks, DateTimeKind.Utc);
             }
         }
-
 
 
         public static bool IsDBNull(this IDataReader reader, string column)

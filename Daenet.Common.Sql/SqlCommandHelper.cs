@@ -8,9 +8,13 @@ namespace Daenet.Common.Sql
     public static class SqlCommandHelper
     {
         #region Public Fields
+
         public static int m_UniqueParamID = 0;
+
         #endregion
+
         #region Public Methods
+
         public static SqlParameter AddUniqueSqlParameter(this SqlCommand command, string parameter, object value)
         {
             SqlParameter sqlParameter = new SqlParameter();
@@ -52,7 +56,7 @@ namespace Daenet.Common.Sql
         }
 
         /// <summary>
-        /// Builds "COLUMN IN (Param1, Param2, ParamN)" clause and adds param to sql parameters
+        /// Builds "COLUMN IN (Param1, Param2, ParamN)" clause and adds Paramaters to Sql parameters
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="cmd"></param>

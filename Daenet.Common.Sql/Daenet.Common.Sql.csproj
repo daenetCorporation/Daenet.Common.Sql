@@ -10,6 +10,7 @@
     <PackageIconUrl>https://avatars3.githubusercontent.com/u/12556447?v=4&amp;s=200</PackageIconUrl>
     <RepositoryUrl>https://github.com/daenetCorporation/Daenet.Common.Sql.git</RepositoryUrl>
     <PackageTags>sql</PackageTags>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
